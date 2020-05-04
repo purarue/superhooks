@@ -1,66 +1,44 @@
-# Superhooks
+# Superhooks (discord)
 
-Superhooks is a supervisor "event listener" that sends events from processes that run under [supervisor](http://supervisord.org) to predefined web hooks. When `superhooks` receives an event, it sends a message notification to a configured URL.
+This posts the superhooks event data as an embed to a discord channel, using a [webhook](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
-`superhooks` uses [requests](https://2.python-requests.org/en/master/#) full-featured Python http requests library.
+Run this with python3.6 or above. don't be a monster.
 
 ## Installation
 
 ```
-pip install superhooks
+pip install git+https://github.com/seanbreckenridge/superhooks
 ```
 
-## Command-Line Syntax
+Create a webhook, and store the URL in a file (just on the first line, nothing fancy) somewhere on the system.
 
-```bash
-$ superhooks  -u http://localhost:8090/ -e STARTING,RUNNING,BACKOFF,STOPPING,FATAL,EXITED,STOPPED,UNKNOWN -d "a^b^^c^d" -H "p^q^^r^s" 
-```
-
-### Options
-
-```-u URL, --url=http://localhost:8090/```
-
-Post the payload to the url with http `POST`
-
-```-d DATA, --data=a^b^^c^d``` post body data as key value pair items are separated by `^^` and key and values are separated by `^`
-
-```-H HEADERS, --headers=p^q^^r^s``` request headers with as key value pair items are separated by `^^` and key and values are separated by `^`
-
-```-e EVENTS, --event=EVENTS```
-
-The Supervisor Process State event(s) to listen for. It can be any, one of, or all of STARTING, RUNNING, BACKOFF, STOPPING, EXITED, STOPPED, UNKNOWN.
-
-## Configuration
 An `[eventlistener:x]` section must be placed in `supervisord.conf` in order for `superhooks` to do its work. See the “Events” chapter in the Supervisor manual for more information about event listeners.
 
-The following example assume that `superhooks` is on your system `PATH`.
+Assumes `superhooks-discord` is on your `$PATH`:
 
 ```
-[eventlistener:superhooks]
-command=python /usr/local/bin/superhooks -u http://localhost:8090/ -e BACKOFF,FATAL,EXITED,UNKNOWN -d "a^b^^c^d" -H "p^q^^r^s"
+[eventlistener:superhooks-discord]
+command=superhooks-discord -f "/home/user/.discord_webhook.txt" -e BACKOFF,FATAL,EXITED,UNKNOWN # 2>/some/logfile
 events=PROCESS_STATE,TICK_60
+#buffer_size=25
+```
+
+I've included a rudimentary flask `test_server` which can be spun up on port `8090`, so you can see what typical responses from the API are like.
+
+### Usage
 
 ```
-### The above configuration  will produce following payload for an crashing process named envoy
+Usage: superhooks-discord [options]
 
-```
-POST / HTTP/1.1
-Host: localhost:8090
-Accept: */*
-Accept-Encoding: gzip, deflate
-Connection: keep-alive
-Content-Length: 177
-Content-Type: application/x-www-form-urlencoded
-P: q
-R: s
-User-Agent: python-requests/2.12.1
-
-from_state=RUNNING&a=b&c=d&event_name=PROCESS_STATE_EXITED&process_name=cat%3Ameow&pheaders_all=from_state%3ARUNNING+processname%3Ameow+pid%3A25232+expected%3A0+groupname%3Acat+
+Options:
+  -h, --help            show this help message and exit
+  -f FILE, --file=FILE  File which contains discord web hook.
+  -e EVENTS, --events=EVENTS
+                        Supervisor event(s). Can be any, some or all of
+                        ('STARTING', 'RUNNING', 'BACKOFF', 'STOPPING',
+                        'FATAL', 'EXITED', 'STOPPED', 'UNKNOWN') as comma
+                        separated values
 ```
 
 ### Notes
 * All the events will be buffered for 1 min and pushed to web hooks. 
-
-### Development 
-* Modify the changes.
-* Execute `python setup.py publish` 

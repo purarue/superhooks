@@ -13,11 +13,6 @@ import sys
 
 py_version = sys.version_info[:2]
 
-if py_version < (2, 6):
-    raise RuntimeError('On Python 2, superhooks requires Python 2.6 or later')
-elif (3, 0) < py_version < (3, 2):
-    raise RuntimeError('On Python 3, superhooks requires Python 3.2 or later')
-
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -29,18 +24,11 @@ try:
     CHANGES = open(os.path.join(here, 'CHANGES.md')).read()
 except (IOError, OSError):
     CHANGES = ''
-# 'setup.py publish' shortcut.
-if sys.argv[-1] == 'publish':
-    os.system('python2 setup.py sdist bdist_wheel')
-    os.system('python3 setup.py sdist bdist_wheel')
-    os.system('twine upload dist/superhooks*.tar.gz')
-    os.system('twine upload dist/superhooks*.whl')
-    sys.exit()
 
-setup(name='superhooks',
-      version='0.5',
+setup(name='superhooks-discord',
+      version='0.1',
       license='BSD-derived (http://www.repoze.org/LICENSE.txt)',
-      description='superhooks plugin for supervisord',
+      description='superhooks-discord plugin for supervisord',
       long_description=README + '\n\n' + CHANGES,
       long_description_content_type='text/markdown',
       classifiers=[
@@ -49,13 +37,6 @@ setup(name='superhooks',
           'Intended Audience :: System Administrators',
           'Natural Language :: English',
           'Operating System :: POSIX',
-          'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 2.6',
-          'Programming Language :: Python :: 2.7',
-          'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.2',
-          'Programming Language :: Python :: 3.3',
-          'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
@@ -63,13 +44,11 @@ setup(name='superhooks',
           'Topic :: System :: Monitoring',
           'Topic :: System :: Systems Administration',
       ],
-      author='Yuvaraj Loganathan',
-      author_email='uvaraj6@gmail.com',
-      url="https://github.com/skyrocknroll/superhooks",
-      maintainer="Yuvaraj Loganathan",
-      maintainer_email="uvaraj6@gmail.com",
-      keywords='supervisor web hooks monitoring',
-      packages=find_packages(),
+      author='Sean Breckenridge',
+      author_email='seanbrecke@gmail.com',
+      url="https://github.com/seanbrecke/superhooks",
+      keywords='supervisor web hooks monitoring discord',
+      packages=find_packages(include=["superhooks_discord"]),
       include_package_data=True,
       zip_safe=False,
       install_requires=[
@@ -77,15 +56,8 @@ setup(name='superhooks',
           'supervisor',
           'requests',
       ],
-      tests_require=[
-          'supervisor',
-          'superlance',
-          'mock',
-
-      ],
-      test_suite='superhooks.tests',
       entry_points="""\
       [console_scripts]
-      superhooks = superhooks.superhooks:main
+      superhooks-discord = superhooks_discord.superhooks:main
       """
       )
