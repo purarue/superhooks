@@ -14,7 +14,7 @@ Run this with python3.6 or above. don't be a monster.
 pip install git+https://github.com/seanbreckenridge/superhooks
 ```
 
-Create a webhook, and store the URL in a file (just on the first line, nothing fancy) somewhere on the system.
+Create a webhook for a discord channel, and store the webhook URL in a file (just on the first line, nothing fancy) somewhere on the system.
 
 An `[eventlistener:x]` section must be placed in `supervisord.conf` in order for `superhooks-discord` to do its work. See the “Events” chapter in the Supervisor manual for more information about event listeners.
 
