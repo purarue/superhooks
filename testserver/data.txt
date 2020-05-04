@@ -1,2 +1,0 @@
-[2020-05-04 06:36:01,459] INFO in app: ImmutableMultiDict([('process_name', 'wca-userinfo:wca-userinfo'), ('from_state', 'RUNNING'), ('event_name', 'PROCESS_STATE_EXITED'), ('pheaders_all', 'processname:wca-userinfo groupname:wca-userinfo from_state:RUNNING expected:0 pid:14964 '), ('a', 'b'), ('c', 'd')])
-
