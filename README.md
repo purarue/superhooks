@@ -11,7 +11,7 @@ Run this with python3.6 or above. don't be a monster.
 ## Installation
 
 ```
-pip install git+https://gitlab.com/seanbreckenridge/superhooks
+pip install git+https://github.com/seanbreckenridge/superhooks
 ```
 
 Create a webhook for a discord channel, and store the webhook URL in a file (just on the first line, nothing fancy) somewhere on the system.
