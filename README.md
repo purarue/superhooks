@@ -4,14 +4,14 @@ This is modified from [superhooks](https://github.com/skyrocknroll/superhooks)
 
 This posts the superhooks event data as an embed to a discord channel, using a [webhook](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
-<img src="https://raw.githubusercontent.com/seanbreckenridge/superhooks/master/.github/embed.png" width=300>
+<img src="https://raw.githubusercontent.com/purarue/superhooks/master/.github/embed.png" width=300>
 
 Run this with python3.6 or above. don't be a monster.
 
 ## Installation
 
 ```
-pip install git+https://github.com/seanbreckenridge/superhooks
+pip install git+https://github.com/purarue/superhooks
 ```
 
 Create a webhook for a discord channel, and store the webhook URL in a file (just on the first line, nothing fancy) somewhere on the system.
